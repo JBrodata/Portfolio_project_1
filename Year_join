@@ -1,0 +1,172 @@
+--Used CTEs to pull count of members, casual riders, and total of both from each table for the year. Combined all of the tables into one query using an inner join.
+
+
+
+WITH CTE_Q1 AS ( --Q1 covers months Jan/Feb/March
+  SELECT 
+    Day_of_week AS Day,
+    COUNTIF(member_casual = 'member') AS members_Q1,
+    COUNTIF(member_casual = 'casual') AS casual_Q1,
+    COUNT(member_casual) AS total_users_Q1
+  FROM `cyclistic-case-study-389702.2020_trip_data.trips_Q1`
+  GROUP BY Day_of_week
+),
+CTE_April AS (
+  SELECT 
+    day_of_week AS April_Day,
+    COUNTIF(member_casual = 'member') AS members_April,
+    COUNTIF(member_casual = 'casual') AS casual_April,
+    COUNT(member_casual) AS total_users_April
+  FROM `cyclistic-case-study-389702.2020_trip_data.04_trips`
+  GROUP BY day_of_week
+),
+CTE_May AS (
+  SELECT 
+    day_of_week AS May_Day,
+    COUNTIF(member_casual = 'member') AS members_May,
+    COUNTIF(member_casual = 'casual') AS casual_May,
+    COUNT(member_casual) AS total_users_May
+  FROM `cyclistic-case-study-389702.2020_trip_data.05_trips`
+  GROUP BY day_of_week
+),
+CTE_June AS (
+  SELECT 
+    day_of_week AS June_Day,
+    COUNTIF(member_casual = 'member') AS members_June,
+    COUNTIF(member_casual = 'casual') AS casual_June,
+    COUNT(member_casual) AS total_users_June
+  FROM `cyclistic-case-study-389702.2020_trip_data.06_trips`
+  GROUP BY day_of_week
+),
+CTE_July AS (
+  SELECT 
+    day_of_week AS July_Day,
+    COUNTIF(member_casual = 'member') AS members_July,
+    COUNTIF(member_casual = 'casual') AS casual_July,
+    COUNT(member_casual) AS total_users_July
+  FROM `cyclistic-case-study-389702.2020_trip_data.07_trips`
+  GROUP BY day_of_week
+),
+CTE_Aug AS (
+  SELECT 
+    day_of_week AS Aug_Day,
+    COUNTIF(member_casual = 'member') AS members_Aug,
+    COUNTIF(member_casual = 'casual') AS casual_Aug,
+    COUNT(member_casual) AS total_users_Aug
+  FROM `cyclistic-case-study-389702.2020_trip_data.08_trips`
+  GROUP BY day_of_week
+),
+CTE_Sept AS (
+  SELECT 
+    day_of_week AS Sept_Day,
+    COUNTIF(member_casual = 'member') AS members_Sept,
+    COUNTIF(member_casual = 'casual') AS casual_Sept,
+    COUNT(member_casual) AS total_users_Sept
+  FROM `cyclistic-case-study-389702.2020_trip_data.09_trips`
+  GROUP BY day_of_week
+),
+CTE_Oct AS (
+  SELECT 
+    day_of_week AS Oct_Day,
+    COUNTIF(member_casual = 'member') AS members_Oct,
+    COUNTIF(member_casual = 'casual') AS casual_Oct,
+    COUNT(member_casual) AS total_users_Oct
+  FROM `cyclistic-case-study-389702.2020_trip_data.10_trips`
+  GROUP BY day_of_week
+),
+CTE_Nov AS (
+  SELECT 
+    day_of_week AS Nov_Day,
+    COUNTIF(member_casual = 'member') AS members_Nov,
+    COUNTIF(member_casual = 'casual') AS casual_Nov,
+    COUNT(member_casual) AS total_users_Nov
+  FROM `cyclistic-case-study-389702.2020_trip_data.11_trips`
+  GROUP BY day_of_week
+),
+CTE_Dec AS (
+  SELECT 
+    day_of_week AS Dec_Day,
+    COUNTIF(member_casual = 'member') AS members_Dec,
+    COUNTIF(member_casual = 'casual') AS casual_Dec,
+    COUNT(member_casual) AS total_users_Dec
+  FROM `cyclistic-case-study-389702.2020_trip_data.12_trips`
+  GROUP BY day_of_week
+)
+
+SELECT 
+  CTE_Q1.Day,
+  CTE_Q1.members_Q1,
+  CTE_Q1.casual_Q1,
+  CTE_Q1.total_users_Q1,
+  CTE_April.members_April,
+  CTE_April.casual_April,
+  CTE_April.total_users_April,
+  CTE_May.members_May,
+  CTE_May.casual_May,
+  CTE_May.total_users_May,
+  CTE_June.members_June,
+  CTE_June.casual_June,
+  CTE_June.total_users_June,
+  CTE_July.members_July,
+  CTE_July.casual_July,
+  CTE_July.total_users_July,
+  CTE_Aug.members_Aug,
+  CTE_Aug.casual_Aug,
+  CTE_Aug.total_users_Aug,
+  CTE_Sept.members_Sept,
+  CTE_Sept.casual_Sept,
+  CTE_Sept.total_users_Sept,
+  CTE_Oct.members_Oct,
+  CTE_Oct.casual_Oct,
+  CTE_Oct.total_users_Oct,
+  CTE_Nov.members_Nov,
+  CTE_Nov.casual_Nov,
+  CTE_Nov.total_users_Nov,
+  CTE_Dec.members_Dec,
+  CTE_Dec.casual_Dec,
+  CTE_Dec.total_users_Dec
+  
+FROM
+  CTE_Q1
+JOIN --Joins used to combine years data into one query
+  CTE_April
+ON
+  CTE_Q1.Day = CTE_April.April_Day
+JOIN
+  CTE_May
+ON
+  CTE_Q1.Day = CTE_May.May_Day
+JOIN
+  CTE_June
+ON
+  CTE_Q1.Day = CTE_June.June_Day
+JOIN
+  CTE_July
+ON
+  CTE_Q1.Day = CTE_July.July_Day
+JOIN
+  CTE_Aug
+ON
+  CTE_Q1.Day = CTE_Aug.Aug_Day
+JOIN
+  CTE_Sept
+ON
+  CTE_Q1.Day = CTE_Sept.Sept_Day
+JOIN
+  CTE_Oct
+ON
+  CTE_Q1.Day = CTE_Oct.Oct_Day
+JOIN
+  CTE_Nov
+ON
+  CTE_Q1.Day = CTE_Nov.Nov_Day
+JOIN
+  CTE_Dec
+ON
+  CTE_Q1.Day = CTE_Dec.Dec_Day  
+JOIN --Join used to order results by Day of week starting with Sunday
+`cyclistic-case-study-389702.2020_trip_data.day_num` AS day_num
+ON
+  CTE_Q1.Day = day_num.Day
+ORDER BY
+  day_num.Day_number
