@@ -1,0 +1,14 @@
+--created in BigQuery
+
+SELECT 
+Day_of_week,
+member_casual AS User, 
+COUNT(Day_of_week) AS Day_count
+
+FROM `cyclistic-case-study-389702.2020_trip_data.trips_Q1`
+
+GROUP BY
+Day_of_week, member_casual
+
+ORDER BY
+Day_Count ASC
