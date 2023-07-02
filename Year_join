@@ -1,3 +1,4 @@
+--Work completed using BigQuery
 --Used CTEs to pull count of members, casual riders, and total of both from each table for the year. Combined all of the tables into one query using an inner join.
 
 
