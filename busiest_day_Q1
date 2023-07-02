@@ -1,0 +1,15 @@
+--Completed in BigQuery
+
+SELECT  
+member_casual AS User,
+EXTRACT(MINUTE FROM(AVG(CAST(ride_length AS INTERVAL)))) AS Mean_ride_length, --extracted ride length by minutes then aggregrated the average
+EXTRACT(MINUTE FROM(MAX(CAST(ride_length AS INTERVAL)))) AS Max_ride_length,  --extracted ride length by minutes then aggregated the max
+APPROX_TOP_COUNT(Day_of_week,1) AS Busiest_day                                --aggregated busiest day of the week 
+
+FROM `cyclistic-case-study-389702.2020_trip_data.trips_Q1`
+
+GROUP BY
+member_casual                                                               --grouped by user to show busiest day for each type
+
+ORDER BY
+Mean_ride_length ASC
